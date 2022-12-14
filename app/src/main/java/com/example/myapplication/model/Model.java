@@ -19,7 +19,7 @@ public class Model {
 
     List<Student> data = new LinkedList<>();
 
-    public List<Student> getAllStudent() {
+    public List<Student> getAllStudents() {
         return data;
     }
 

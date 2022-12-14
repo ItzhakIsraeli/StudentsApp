@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Phone"
-        android:inputType="textPersonName"
+        android:inputType="phone"
         android:minHeight="48dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
         app:layout_constraintStart_toStartOf="@+id/add_student_id_et"

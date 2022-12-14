@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -55,7 +56,9 @@ public class EditStudentActivity extends AppCompatActivity {
 
         deleteBtn.setOnClickListener(view -> {
             Model.instance().deleteStudent(studentPos);
-            finish();
+            Intent intent = new Intent(this, StudentRecyclerList.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
     }
 }

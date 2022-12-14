@@ -19,18 +19,20 @@ import com.example.myapplication.model.Model;
 import com.example.myapplication.model.Student;
 
 import java.util.List;
+import java.util.Objects;
 
 public class StudentRecyclerList extends AppCompatActivity {
     List<Student> data;
+    RecyclerView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_recycler_list);
 
-        data = Model.instance().getAllStudent();
+        data = Model.instance().getAllStudents();
 
-        RecyclerView list = findViewById(R.id.studentrecycler_list);
+        list = findViewById(R.id.studentrecycler_list);
         list.setHasFixedSize(true);
 
         list.setLayoutManager(new LinearLayoutManager(this));
@@ -45,11 +47,12 @@ public class StudentRecyclerList extends AppCompatActivity {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onRefresh() {
-                data = Model.instance().getAllStudent();
+                data = Model.instance().getAllStudents();
                 adapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+
 
         btn.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddStudentActivity.class);
@@ -62,6 +65,15 @@ public class StudentRecyclerList extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    protected void onResume() {
+        super.onResume();
+        data = Model.instance().getAllStudents();
+        Objects.requireNonNull(list.getAdapter()).notifyDataSetChanged();
+    }
+
 
     class StudentViewHolder extends RecyclerView.ViewHolder {
         TextView nameTv;

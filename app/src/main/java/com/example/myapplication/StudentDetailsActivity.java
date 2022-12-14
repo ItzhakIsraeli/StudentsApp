@@ -15,21 +15,41 @@ import com.example.myapplication.model.Student;
 public class StudentDetailsActivity extends AppCompatActivity {
 
     private int studentPos;
+    private TextView name;
+    private TextView id;
+    private TextView phone;
+    private TextView address;
+    private CheckBox checked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_details);
 
-        TextView name = findViewById(R.id.student_details_name_tv);
-        TextView id = findViewById(R.id.student_details_id_tv);
-        TextView phone = findViewById(R.id.student_details_phone_tv);
-        TextView address = findViewById(R.id.student_details_address_tv);
-        CheckBox checked = findViewById(R.id.student_details_cb);
+        name = findViewById(R.id.student_details_name_tv);
+        id = findViewById(R.id.student_details_id_tv);
+        phone = findViewById(R.id.student_details_phone_tv);
+        address = findViewById(R.id.student_details_address_tv);
+        checked = findViewById(R.id.student_details_cb);
         Button editBtn = findViewById(R.id.student_details_edit_btn);
 
         studentPos = getIntent().getIntExtra("StudentPOS", -1);
+        updateChanges();
 
+        editBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(this, EditStudentActivity.class);
+            intent.putExtra("StudentPOS", studentPos);
+            startActivity(intent);
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.updateChanges();
+    }
+
+    private void updateChanges() {
         Student student = Model.instance().getStudentByPosition(studentPos);
 
         name.setText(student.getName());
@@ -37,11 +57,5 @@ public class StudentDetailsActivity extends AppCompatActivity {
         phone.setText(student.getPhone());
         address.setText(student.getAddress());
         checked.setChecked(student.getCb());
-
-        editBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(this, EditStudentActivity.class);
-            intent.putExtra("StudentPOS", studentPos);
-            startActivity(intent);
-        });
     }
 }
